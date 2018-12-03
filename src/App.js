@@ -30,7 +30,7 @@ export default class App extends Component {
       secSet: 3000,
     };
     this.toggle = this.toggle.bind(this);
-    
+    this.counter = '';
   }
 
   componentDidMount() {
@@ -56,7 +56,8 @@ export default class App extends Component {
       ticking: false
     }, () => {
       clearInterval(this.counter);
-    }, andThen());
+      andThen();
+    });
   }
 
   start(andThen) {
@@ -66,17 +67,24 @@ export default class App extends Component {
     this.setState({
       ticking: true,
       secLeft: this.state.secSet,
-    }, function() {
+    }, () => {
       this.counter = setInterval(() => {
-        this.setState({
-          secLeft: this.state.secLeft - 1,
-        });
+        if (this.state.secLeft > 0) {
+          this.setState({
+            secLeft: this.state.secLeft - 1,
+          });
+        } else {
+          this.reset(50);
+        }
       }, 1000);
-    }, andThen());
+      andThen();
+    });
   }
 
   reset(minute) {
     this.stop();
+    if (minute > 60) minute = 60;
+    if (minute < 0) minute = 0;
     this.setState({
       timeSet: minute,
       secSet: minute * 60,
