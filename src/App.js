@@ -100,6 +100,9 @@ export default class App extends Component {
     const large_arc_flag = +(startAngle >= 180);
     const sweep_flag = 1;
     startAngle = startAngle % 360 / 180 * Math.PI;
+    if (startAngle === 0) {
+      startAngle = 2 * Math.PI - 0.00001;
+    }
     endAngle = endAngle % 360 / 180 * Math.PI;
     let toReturn = `M ${cx} ${cy} L ${-Math.sin(startAngle) * r + cx} ${-Math.cos(startAngle) * r + cy} A ${r} ${r} 0 ${large_arc_flag} ${sweep_flag} ${-Math.sin(endAngle) * r + cx} ${-Math.cos(endAngle) * r + cy} L ${cx} ${cy} Z`;
     return toReturn;
