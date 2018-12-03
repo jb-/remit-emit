@@ -8,6 +8,7 @@ const styles = {
     fontSize: '30px',
     width: '70px',
     textAlign: 'center',
+    borderColor: 'black',
   },
   input: {
     borderWidth: 2,
@@ -16,6 +17,15 @@ const styles = {
     width: '50px',
     textAlign: 'center',
   },
+  timeLeft: {
+    width: '120px',
+    background: 'white',
+    fontSize: '30px',
+    textAlign: 'center',
+    borderWidth: '2px',
+    borderColor: 'black',
+    borderStyle: 'solid',
+  }
 }
 
 export default class App extends Component {
@@ -26,8 +36,8 @@ export default class App extends Component {
       height: 0,
       timeSet: 50, // 0~60
       ticking: false,
-      secLeft: 3000,
-      secSet: 3000,
+      secLeft: 3000000,
+      secSet: 3000000,
     };
     this.toggle = this.toggle.bind(this);
     this.counter = '';
@@ -55,6 +65,7 @@ export default class App extends Component {
     this.setState({
       ticking: false
     }, () => {
+      this.startTime = '';
       clearInterval(this.counter);
       andThen();
     });
@@ -64,19 +75,22 @@ export default class App extends Component {
     if (!andThen) {
       andThen = () => {};
     }
+    this.startTime = new Date();
     this.setState({
       ticking: true,
       secLeft: this.state.secSet,
     }, () => {
       this.counter = setInterval(() => {
         if (this.state.secLeft > 0) {
+          const currentTime = new Date();
+          const timeDelta = currentTime - this.startTime;
           this.setState({
-            secLeft: this.state.secLeft - 1,
+            secLeft: this.state.secSet - timeDelta,
           });
         } else {
           this.reset(50);
         }
-      }, 1000);
+      }, 100);
       andThen();
     });
   }
@@ -87,8 +101,8 @@ export default class App extends Component {
     if (minute < 0) minute = 0;
     this.setState({
       timeSet: minute,
-      secSet: minute * 60,
-      secLeft: minute * 60,
+      secSet: minute * 60000,
+      secLeft: minute * 60000,
     });
   }
 
@@ -113,11 +127,15 @@ export default class App extends Component {
     const height = this.state.height;
     const r = this.state.width * 49 / 100;
     const borderWidth = 4;
+    let minLeft = Math.floor(this.state.secLeft / 60000);
+    if (minLeft < 10) minLeft = '0' + minLeft;
+    let secLeft = Math.floor(this.state.secLeft % 60000 / 1000);
+    if (secLeft < 10) secLeft = '0' + secLeft;
     return (
-      <div style={{width: width + 'px', height: this.state.height+ 'px'}}>
+      <div style={{width: width + 'px', height: this.state.height+ 'px', fontFamily: 'Apple SD Gothic Neo'}}>
         <svg width={width} height={height} style={{marginLeft: 'auto', marginRight: 'auto'}}>
           <circle cx={width/2} cy={height/2} r={r} stroke="black" strokeWidth={borderWidth} fill="lightgray"/>
-          <path d={this.generateArc(width/2, height/2, r - borderWidth, this.state.secLeft / 60 * 6, 0)} fill="red" />
+          <path d={this.generateArc(width/2, height/2, r - borderWidth, this.state.secLeft / 60000 * 6, 0)} fill="red" />
           <g>
             {_.range(12).map((n) => 
               (<line stroke="black" key={60-n*5}strokeWidth={borderWidth} x1={this.state.width/2} x2={this.state.width/2} y1="0" y2={this.state.width/50} transform={`rotate(${n*30},${this.state.width/2},${this.state.width/2})`}/>))
@@ -141,6 +159,8 @@ export default class App extends Component {
           >
             {this.state.ticking ? 'stop' : 'start'}  
           </button>
+          <br/>
+          <div style={styles.timeLeft}>{minLeft + ':' + secLeft}</div>
         </div>
       </div>
     );
