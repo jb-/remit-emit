@@ -25,6 +25,12 @@ const styles = {
     borderWidth: '2px',
     borderColor: 'black',
     borderStyle: 'solid',
+  },
+  task: {
+    borderWidth: 2,
+    borderStyle: 'solid',
+    fontSize: '30px',
+    textAlign: 'center',
   }
 }
 
@@ -144,8 +150,16 @@ export default class App extends Component {
         </svg>
         <div style={{
           position: 'absolute',
-          top: width/3 * 2,
-          left: height/2 - (parseInt(styles.input.width) + parseInt(styles.button.width))/2,
+          top: height/2 + 10,
+          left: width/6,
+        }}
+        >
+          <input placeholder="이번 시간에 할 일은?" type="text" style={Object.assign({}, styles.task, {width: width*2/3})}/>
+        </div>
+        <div style={{
+          position: 'absolute',
+          top: height/3 * 2,
+          left: width/2 - (parseInt(styles.input.width) + parseInt(styles.button.width))/2,
         }}>
           <input
             style={styles.input}
