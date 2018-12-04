@@ -8,6 +8,8 @@ $ cd remit-emit
 $ npm install
 $ npm start
 ```
+## ... or giving it a try
+https://timer.jongb.in
 
 ## Contributing
 * Open issues, if you have any suggestions
