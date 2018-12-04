@@ -9,7 +9,7 @@ $ npm install
 $ npm start
 ```
 ## ... or giving it a try
-https://timer.jongb.in
+At https://timer.jongb.in, the latest master commit is automatically built and deployed by [Netlify](https://www.netlify.com/)
 
 ## Contributing
 * Open issues, if you have any suggestions
