@@ -154,7 +154,7 @@ export default class App extends Component {
           left: width/6,
         }}
         >
-          <input placeholder="이번 시간에 할 일은?" type="text" style={Object.assign({}, styles.task, {width: width*2/3})}/>
+          <input placeholder="타이머가 끝나기 전에 무엇을 해낼 건가요?" type="text" style={Object.assign({}, styles.task, {width: width*2/3})}/>
         </div>
         <div style={{
           position: 'absolute',
