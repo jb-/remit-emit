@@ -128,6 +128,17 @@ export default class App extends Component {
     return toReturn;
   }
 
+  changeFavicon(secLeft) {
+    const favicon = document.getElementById('favicon');
+    if (secLeft > 3300000) {
+      favicon.href = "./favicon60.png";
+    } else if (secLeft <= 1800000) {
+      favicon.href = "./favicon2.png";
+    } else {
+      favicon.href = "./favicon.png";
+    }
+  }
+
   render() {
     const width = this.state.width;
     const height = this.state.height;
@@ -137,6 +148,7 @@ export default class App extends Component {
     if (minLeft < 10) minLeft = '0' + minLeft;
     let secLeft = Math.floor(this.state.secLeft % 60000 / 1000);
     if (secLeft < 10) secLeft = '0' + secLeft;
+    this.changeFavicon(this.state.secLeft);
     return (
       <div style={{width: width + 'px', height: this.state.height+ 'px', fontFamily: 'Apple SD Gothic Neo'}}>
         <svg width={width} height={height} style={{marginLeft: 'auto', marginRight: 'auto'}}>
